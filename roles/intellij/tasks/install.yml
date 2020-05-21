@@ -1,0 +1,57 @@
+- name: Create temporary download directory
+  become: true
+  tempfile:
+    state: directory
+    suffix: temp_intellij
+  register: intellij_download
+
+- name: Check if the given IntelliJ version is installed
+  become: true
+  command: grep {{ intellij_build }} {{ intellij_install_dir }}/build.txt
+  register: install
+  failed_when: False
+  changed_when: False
+
+- name: Install Intellij
+  become: true
+  when: install.stdout.find(intellij_build) == -1
+  block:
+    - name: Download IntelliJ archive
+      get_url: 
+        url: " {{ intellij_url }}"
+        dest: "{{ intellij_download.path }}/{{ intellij_package_name }}"
+
+    - name: Uncompress IntelliJ
+      file: 
+        path: "{{ intellij_install_dir }}"
+        state: absent
+
+    - name: Create install directory
+      file:
+        path: "{{ intellij_install_dir }}"
+        state: directory
+
+    - name: Unpack IntelliJ
+      unarchive:
+        src: '{{ intellij_download.path }}/{{ intellij_package_name }}'
+        remote_src: yes
+        extra_opts: '--strip-components=1'
+        dest: '{{ intellij_install_dir }}'
+        owner: root
+        group: root
+
+    - name: Create bin link
+      file:
+        src: '{{ intellij_install_dir }}/bin/idea.sh'
+        dest: /usr/local/bin/idea
+        state: link
+        owner: root
+        group: root
+        mode: 'u=rwx,go=rx'
+
+- name: Remove the temporary download directory
+  become: true
+  file:
+    path: "{{ intellij_download.path }}"
+    state: absent
+  when: intellij_download.path is defined 

@@ -1,0 +1,6 @@
+- name: Generate gitconfig
+  become: true
+  template:
+    src: gitconfig.j2
+    dest: "{{ home_path }}/.gitconfig"
+  when: (git_name is not false) or (git_email is not false) 

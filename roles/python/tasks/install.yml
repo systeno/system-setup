@@ -1,0 +1,18 @@
+- name: Install Python
+  become: true  
+  block:
+    - name: Install Python and Python3
+      apt:
+        pkg: 
+          - python
+          - python3
+
+    - name: Install pip and pip3
+      apt:
+        pkg: 
+          - python-pip
+          - python3-pip
+      
+    - name: Install virtualenv
+      pip:
+        name: virtualenv

@@ -1,0 +1,4 @@
+intellij_build: "I{{ intellij_edition }}-201.7223.91"
+intellij_install_dir: /opt/idea/idea-{{ intellij_edition }}-{{ intellij_version }}
+intellij_package_name: "ideaI{{ intellij_edition }}-{{intellij_version}}.tar.gz"
+intellij_url: "https://download.jetbrains.com/idea/{{ intellij_package_name }}"

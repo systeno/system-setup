@@ -1,0 +1,39 @@
+- name: Generate zshrc
+  template:
+    src: zshrc.j2
+    dest: "{{ home_path }}/.zshrc"
+
+- name: Generate zshenv
+  template:
+    src: zshenv.j2
+    dest: "{{ home_path }}/.zshenv"
+
+- name: Generate zprofile
+  template:
+    src: zprofile.j2
+    dest: "{{ home_path }}/.zprofile"
+
+- name: Generate Completions
+  copy:
+    src: completions
+    dest: "{{ home_path }}/.zsh/"
+
+- name: Generate Colors
+  template:
+    src: colors.j2
+    dest: "{{ home_path }}/.zsh/colors"
+
+- name: Generate Aliases
+  template:
+    src: aliases.j2
+    dest: "{{ home_path }}/.zsh/aliases"
+
+- name: Generate Functions
+  copy:
+    src: functions/
+    dest: "{{ home_path }}/.zsh/functions/"
+
+- name: Generate ZSH Theme
+  copy:
+    src: p10k.zsh
+    dest: "{{ home_path }}/.zsh/p10k.zsh"

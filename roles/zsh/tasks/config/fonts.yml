@@ -1,0 +1,12 @@
+- name: Create Fonts Directory
+  file:
+    path: "{{ font_path }}"
+    state: directory
+
+- name: Install Terminal Fonts from Web
+  become: true
+  unarchive:
+    remote_src: yes
+    src: https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip
+    dest: "{{ font_path }}"
+    

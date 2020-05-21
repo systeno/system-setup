@@ -1,0 +1,8 @@
+# Bachblaze information to download aditional Fonts
+# If any of these are set to false, no fonts will be installed from backblaze
+lilypond_font_keyID: false
+lilypond_font_applicationKey: false
+lilypond_font_bucket: false
+
+lilypond_version: "2.20.0"
+lilypond_lib_path: "{{ home_path }}/LilyPond/Lib"

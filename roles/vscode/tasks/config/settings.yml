@@ -1,0 +1,4 @@
+- name: Copy VS Code Settings
+  copy:
+    src: settings.json
+    dest: "{{ home_path }}/.config/Code/User/"

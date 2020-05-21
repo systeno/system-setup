@@ -1,0 +1,34 @@
+{
+    "workbench.startupEditor": "newUntitledFile",
+    "files.autoSave": "afterDelay",
+    "editor.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.fontSize": 18,    
+    "editor.mouseWheelZoom": true,
+    "editor.fontLigatures": true,
+    "workbench.colorTheme": "One Dark Pro",
+    "terminal.integrated.fontFamily": "JetBrainsMono Nerd Font",
+    "editor.minimap.enabled": false,
+    "breadcrumbs.enabled": false,
+    "window.zoomLevel": 0,
+    "explorer.openEditors.visible": 0,
+    "window.menuBarVisibility": "default",
+    "workbench.statusBar.visible": true,
+    "window.titleBarStyle": "custom",
+    "workbench.activityBar.visible": true,
+    "python.jediEnabled": false,
+    "vslilypond.midiPlayback.output": "TiMidity port 1",
+    "vslilypond.compilation.additionalCommandLineArguments": "-dmidi-extension=mid",
+    "editor.tabSize": 2,
+    "explorer.compactFolders": false,
+    "workbench.tree.indent": 16,
+    "files.associations": {
+        // Ansible
+        "**/defaults/**/*.yml": "jinja-yaml",
+        "**/group_vars/**/*": "jinja-yaml",
+        "**/host_vars/**/*": "jinja-yaml",
+        "**/vars/**/*.yml": "jinja-yaml",        
+        "**/ansible/**/hosts": "ini",
+        "**/ansible/**/inventory": "ini",
+        "ansible.cfg": "ini"
+    }
+}

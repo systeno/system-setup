@@ -1,0 +1,5 @@
+- name: Check if vscode is installed
+  shell: "command -v code"
+  failed_when: false
+  changed_when: false
+  register: code_installed

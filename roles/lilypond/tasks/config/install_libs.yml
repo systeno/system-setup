@@ -1,0 +1,20 @@
+- name: Make Lilypond Lib directory
+  file: 
+    path: "{{ lilypond_lib_path }}"
+    state: directory
+
+- name: Install Lilypond snippets
+  git:
+    repo: https://github.com/openlilylib/snippets.git
+    dest: "{{ lilypond_lib_path }}/openlilylib/snippets"
+
+
+- name: Install Lilypond pdq stylesheet
+  git:
+    repo: https://github.com/codello/pdq.git
+    dest: "{{ lilypond_lib_path }}/pdq"
+
+- name: Install Lilypond guitar bends
+  git: 
+    repo: https://gitlab.com/till-personal/lilypond/guitar_bends.git
+    dest: "{{ lilypond_lib_path }}/guitar_bends"

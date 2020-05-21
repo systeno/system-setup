@@ -1,0 +1,5 @@
+- name: Make sure git is installed
+  become: true
+  apt:
+    name: git
+    state: present

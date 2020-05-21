@@ -1,0 +1,4 @@
+- name: Config Nano Dependencies
+  become: true
+  apt:
+    name: git    

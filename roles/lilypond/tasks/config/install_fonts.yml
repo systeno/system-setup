@@ -1,0 +1,73 @@
+- name: Create a temporary fonts directory
+  tempfile:
+    state: directory
+    suffix: temp_lilypond_fonts
+  register: temp_fonts
+
+- name: Install fonts from Backblaze
+  when: (lilypond_font_keyID is false) or (lilypond_font_applicationKey is false) or (lilypond_font_bucket is false)
+  block:
+    - name: Authorize B2 account via CLI
+      command: "{{ home_path }}/.local/bin/b2 authorize-account {{ lilypond_font_keyID }} {{ lilypond_font_applicationKey }}"
+
+    - name: Gather Fonts via B2 CLI
+      shell: 
+        cmd: "{{ home_path }}/.local/bin/b2 list-file-names {{ lilypond_font_bucket }} | jq -r '.files[].fileName'"
+      register: font_names    
+
+    - name: Download Font Zips from Backblaze via B2 CLI
+      command: 
+        cmd: '"{{ home_path }}/.local/bin/b2" download-file-by-name "{{ lilypond_font_bucket }}" "{{ item }}" "{{ temp_fonts.path }}/{{ item }}"'
+      with_items: "{{ font_names.stdout_lines }}"
+
+    - name: Creates fonts directory
+      file:
+        path: "{{ font_path }}"
+        state: directory
+
+    - name: Unpack fonts into the fonts directory
+      become: true
+      unarchive: 
+        src: "{{ temp_fonts.path }}/{{ item }}"
+        dest: "{{ font_path }}/"
+      with_items: "{{ font_names.stdout_lines }}"
+
+- name: Install Microsoft Fonts
+  become: true
+  shell: 
+    chdir: "{{ temp_fonts.path }}"
+    cmd: |
+      echo ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true | sudo debconf-set-selections
+      sudo apt-get -qq --yes update
+      sudo apt-get -qq --yes install wget ttf-dejavu ttf-mscorefonts-installer
+      sudo awk '/Url/ {sub("downloads[.]sourceforge[.]net/corefonts","cfhcable.dl.sourceforge.net/project/corefonts/the%20fonts/final",$2); system("wget "$2)}' \
+               /usr/share/package-data-downloads/ttf-mscorefonts-installer
+      sudo /usr/lib/msttcorefonts/update-ms-fonts {{ temp_fonts.path }}/*.exe
+
+- name: Clone Beethoven Font
+  git: 
+    repo: https://github.com/OpenLilyPondFonts/beethoven.git
+    dest: "{{ temp_fonts.path }}/beethoven"
+
+- name: Copy Beethoven otf Fonts to lilypond directory
+  become: true
+  copy: 
+    src: "{{ item }}"
+    dest: "/usr/local/lilypond/usr/share/lilypond/current/fonts/otf/"
+  with_fileglob: 
+    - "{{ temp_fonts.path }}/beethoven/otf/*"
+
+- name: Copy Beethoven svg Fonts to lilypond directory
+  become: true
+  copy: 
+    src: "{{ item }}"
+    dest: "/usr/local/lilypond/usr/share/lilypond/current/fonts/svg/"
+  with_fileglob: 
+    - "{{ temp_fonts.path }}/beethoven/svg/*"
+
+- name: Remove the temporary fonts directory
+  become: true
+  file:
+    path: "{{ temp_fonts.path }}"
+    state: absent
+  when: temp_fonts.path is defined 

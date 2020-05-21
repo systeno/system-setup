@@ -1,0 +1,26 @@
+- name: Install Lilypond
+  become: true
+  when: lillypond_install.rc != 0  
+  block: 
+    - name: Make Temporary Lilypond.sh file
+      tempfile:
+        state: file
+        suffix: temp.sh        
+      register: temp_lilypond
+
+    - name: Download Lilypond installer
+      get_url: 
+        url: "https://lilypond.org/download/binaries/linux-64/lilypond-{{ lilypond_version }}-1.linux-64.sh"
+        dest: "{{ temp_lilypond.path }}"        
+        force: true
+
+      
+    - name: Install LilyPond
+      command: 
+        cmd: 'sh "{{ temp_lilypond.path }}" --batch'
+
+    - name: remove the temporary lilypond installation file
+      file:
+        path: "{{ temp_lilypond.path }}"
+        state: absent
+      when: temp_lilypond.path is defined  

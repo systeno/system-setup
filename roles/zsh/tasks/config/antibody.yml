@@ -1,0 +1,8 @@
+- name: Install Antibody
+  shell: 
+    cmd: curl -sfL git.io/antibody | sh -s - -b {{ antibody_path }}
+    warn: false
+    creates: "{{ antibody_path }}/antibody"
+  vars:
+    antibody_path: "{{ home_path }}/.local/bin"
+  

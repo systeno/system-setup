@@ -1,0 +1,8 @@
+- name: Zsh config dependencies
+  become: true
+  apt: 
+    pkg:
+      - curl
+      - unzip
+      - git
+      - tar

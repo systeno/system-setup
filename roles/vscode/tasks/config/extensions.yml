@@ -1,0 +1,5 @@
+- name: Install VS Code Extentions
+  when: code_installed.rc == 0 and not on_wsl
+  shell:
+    cmd: "code --install-extension {{ item }}"
+  with_lines: cat roles/vscode/files/extensions.txt

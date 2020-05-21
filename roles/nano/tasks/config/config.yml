@@ -1,0 +1,13 @@
+- name: Download Nano Syntax Highlighting
+  become: true
+  git: 
+    repo: https://github.com/scopatz/nanorc.git
+    dest: "/usr/share/nano"
+    depth: 1
+
+- name: Generate .nanorc
+  become: true
+  template: 
+    src: ./nanorc.j2
+    dest: "{{ home_path }}/.nanorc"
+  

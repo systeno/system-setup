@@ -1,0 +1,32 @@
+- name: Config Dependencies
+  block:
+    - name: Lilypond Dependencies
+      become: true
+      apt: 
+        pkg: 
+          - git
+          - python-pip
+
+    - name: check if b2 is installed
+      shell: "command -v b2"
+      failed_when: false
+      changed_when: false
+      register: b2_result
+
+    - name: Install b2 command line tool
+      pip: 
+        name: b2
+        executable: "/usr/bin/pip"
+      when: b2_result.rc != 0
+
+    - name: check if jq is installed
+      shell: "command -v jq"
+      failed_when: false
+      changed_when: false
+      register: jq_result
+
+    - name: Install jq json parser
+      become: true
+      apt: 
+        name: jq
+      when: jq_result.rc != 0

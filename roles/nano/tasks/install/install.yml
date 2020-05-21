@@ -1,0 +1,46 @@
+- name: Install Nano
+  when: nano_installed.stdout.find(nano_version) == -1 
+  become: true
+  block: 
+    - name: Remove old Nano
+      apt: 
+        name: nano
+        state: absent
+
+    - name: Create a temporary download directory
+      tempfile:
+        state: directory
+        suffix: .temp_nano
+      register: temp_nano
+
+    - name: Download Nano
+      unarchive:
+        remote_src: yes
+        src: https://www.nano-editor.org/dist/latest/{{ nano_folder }}.tar.xz
+        dest: "{{ temp_nano.path }}"
+
+    - name: Configure Nano
+      shell: 
+        chdir: "{{ temp_nano.path }}/{{ nano_folder }}"
+        cmd: "./configure --prefix=/usr/local --sysconfdir=/etc --enable-utf8 --docdir=/usr/local/share/doc/{{ nano_folder }}"
+
+    - name: Make Nano
+      become: true
+      make:
+        chdir: "{{ temp_nano.path }}/{{ nano_folder }}"  
+
+    - name: Make install Nano
+      make: 
+        chdir: "{{ temp_nano.path }}/{{ nano_folder }}"
+        target: install
+
+    - name: Finish-up Nano
+      shell:
+        chdir: "{{ temp_nano.path }}/{{ nano_folder }}"
+        cmd: "install -v -m644 doc/nano.html -m644 doc/sample.nanorc /usr/local/share/doc/{{ nano_folder }}"
+    
+    - name: Remove the temporary download directory
+      file:
+        path: "{{ temp_nano.path }}"
+        state: absent
+      when: temp_nano.path is defined 

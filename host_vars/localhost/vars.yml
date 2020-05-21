@@ -1,0 +1,23 @@
+# These options can be changed to configure the system setup
+
+
+# Set this to true when the system is on WSL
+on_wsl: true
+
+# Set this to false if you only want to configure the system
+# but do not want to install additional programms.
+# Keep in mind that this option only does not prevent all kinds of installations.
+# Some configurations have dependencies, themes, etc. that will be installed.
+# This only prevents the installation of the main app that would be installed.
+# If this is set to false and some programms are not installed, the configuration
+# will still be run. This may cause unwanted config files.
+# If you do not want to configure the app at all, disable it in the playbook completly.
+install_missing: true
+
+# Set this to true if you want to install additional tools for your system.
+# The tools installed are documented in roles/system/README.md
+install_system_tools: true
+
+# Set this to true if you want to install additional libraries for your system.
+# The libraries installed are documented in roles/libraries/README.md
+install_libs: true

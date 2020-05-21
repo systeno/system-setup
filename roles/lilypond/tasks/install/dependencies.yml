@@ -1,0 +1,30 @@
+- name: Check if lilypond is installed
+  shell: "command -v lilypond"
+  failed_when: false
+  changed_when: false
+  register: lillypond_install
+
+- name: Install Lilypond Dependencies
+  become: true
+  when: lillypond_install.rc != 0  
+  apt:
+    pkg:
+      - build-essential
+      - autoconf
+      - pkg-config
+      - bison
+      - flex
+      - fontforge
+      - gettext
+      - make          
+      - texlive-base
+      - texlive-metapost
+      - perl
+      - texinfo          
+      - t1utils
+      - texlive-lang-cyrillic
+      - libpango1.0-dev
+      - libtool
+      - libgmp-dev
+      - libreadline-dev
+      - fonts-texgyre

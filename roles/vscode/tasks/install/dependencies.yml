@@ -1,0 +1,19 @@
+- name: Check if vscode is installed
+  shell: "command -v code"
+  failed_when: false
+  changed_when: false
+  register: code_installed
+
+
+- name: install vs code dependencies
+  become: yes
+  when: code_installed != 0
+  apt:
+    name:
+      - ca-certificates
+      - apt-transport-https
+      - gconf2
+      - libasound2
+      - libgtk2.0-0
+      - libxss1
+    state: present

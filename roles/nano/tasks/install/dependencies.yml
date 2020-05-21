@@ -1,0 +1,15 @@
+- name: Check if the given nano version is installed
+  become: true
+  command: "nano --version | grep {{ nano_version }} "
+  register: nano_installed
+
+- name: Install Nano Dependencies
+  when: nano_installed.stdout.find(nano_version) == -1
+  become: true
+  apt:
+    pkg: 
+      - make
+      - libncursesw5-dev
+      - gcc
+      - unzip
+    state: present

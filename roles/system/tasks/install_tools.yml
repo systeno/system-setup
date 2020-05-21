@@ -1,0 +1,11 @@
+- name: Install usefull tools
+  become: true
+  apt:
+    pkg:
+      - unzip 
+      - zip
+      - tree
+      - tar 
+      - make
+      - git
+      - subversion
