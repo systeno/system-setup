@@ -1,18 +1,32 @@
 - name: Install Python
   become: true  
   block:
-    - name: Install Python and Python3
-      apt:
-        pkg: 
-          - python
-          - python3
+    - name: Install Python2
+      package:
+        name: "{{ python2 }}"
+      when: python2 is defined
 
-    - name: Install pip and pip3
-      apt:
-        pkg: 
-          - python-pip
-          - python3-pip
+    - name: Install Python3
+      package:
+        name: "{{ python3 }}"
+      when: python3 is defined
+
+    - name: Install pip2
+      package:
+        name: "{{ pip2 }}"
+      when: pip2 is defined
+
+    - name: Install pip3
+      package:
+        name: "{{ pip3 }}"
+      when: pip2 is defined
       
-    - name: Install virtualenv
-      pip:
-        name: virtualenv
+    - name: Install virtualenv3
+      package:
+        name: "{{ venv3 }}"
+      when: venv3 is defined
+
+    - name: Install virtualenv2
+      package:
+        name: "{{ venv2 }}"
+      when: venv2 is defined

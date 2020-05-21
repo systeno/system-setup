@@ -1,6 +1,6 @@
 - name: Install zsh
   become: true
   when: zsh_installed.rc != 0
-  apt: 
+  package: 
     name: zsh
     state: present

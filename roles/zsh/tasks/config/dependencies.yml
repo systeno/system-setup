@@ -1,6 +1,6 @@
 - name: Zsh config dependencies
   become: true
-  apt: 
+  package: 
     pkg:
       - curl
       - unzip

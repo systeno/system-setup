@@ -1,5 +1,5 @@
-- name: Install apt Libs
+- name: Install opencv
   become: true
-  apt:
-    pkg: 
-      - libopencv-dev
+  package:
+    name: "{{ opencv }}"
+  when: opencv is defined
