@@ -3,7 +3,7 @@
 # All Options that are safly changable are documented in each roll 
 # or already part of the host_vars/localhost folder.
 
-base_distro: "{{ 'Ubuntu' if ansible_distrobution == 'Zorin OS' else ansible_distrobution }}"
+base_distro: "Arch"
 
 home_path: "{{ ansible_env.HOME }}"
 font_path: "{{ home_path }}/.local/share/fonts"

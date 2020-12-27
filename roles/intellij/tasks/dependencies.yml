@@ -1,5 +1,5 @@
 - name: Intall IntelliJ dependencies
   become: true
-  apt:
+  package:
     name: unzip
     state: present
