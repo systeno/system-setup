@@ -2,7 +2,7 @@
 
 
 # Set this to true when the system is on WSL
-on_wsl: true
+on_wsl: false
 
 # Set this to false if you only want to configure the system
 # but do not want to install additional programms.

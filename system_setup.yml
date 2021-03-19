@@ -5,12 +5,12 @@
   roles: 
     - gcc
     - git
-    - intellij
+    ##- intellij
     - java
     - libraries
-    - lilypond
-    - nano
+    ##- lilypond
+    ##- nano
     - python
-    - system
-    - vscode
+    ##- system
+    ##- vscode
     - zsh

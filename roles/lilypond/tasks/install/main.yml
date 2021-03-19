@@ -1,2 +1,5 @@
+# Only works for Ubuntu
 - import_tasks: dependencies.yml
 - import_tasks: install.yml
+
+# Arch linux can just instal "pacman -S lilypond"
